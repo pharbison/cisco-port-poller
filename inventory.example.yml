@@ -1,0 +1,9 @@
+common_vars:
+  username: username
+  password: P@ssw0rd
+  device_type: cisco_ios
+hosts:
+  - hostname: SW01
+    host: 127.0.0.1
+  - hostname: SW02
+    host: 127.0.0.2

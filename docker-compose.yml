@@ -1,0 +1,28 @@
+version: '3.3'
+services:
+  poller:
+    build: .
+    volumes:
+      - ./data:/data
+    environment:
+      - POLLER_INVENTORY=/data/inventory.yml
+      - POLLER_DB_TYPE=mysql # sqlite or mysql
+      - POLLER_SQLITE_FILE=/data/database.db
+      - POLLER_MYSQL_HOST=poller-db
+      - POLLER_MYSQL_USER=poller
+      - POLLER_MYSQL_PASSWORD=poller
+      - POLLER_MYSQL_DATABASE=poller
+      - POLLER_INTERVAL_MINS=1
+      - POLLER_PRUNE_LIMIT=90
+    depends_on:
+      - poller-db
+  poller-db:
+    image: mysql
+    command: --default-authentication-plugin=mysql_native_password
+    volumes:
+      - ./data/db:/var/lib/mysql
+    environment:
+      - MYSQL_DATABASE=poller
+      - MYSQL_USER=poller
+      - MYSQL_PASSWORD=poller
+      - MYSQL_RANDOM_ROOT_PASSWORD=yes
